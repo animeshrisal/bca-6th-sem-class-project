@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+        {% for movie in movies %}
+        <div>
+            {{movie.id}}
+            {{movie.title}}
+            {{movie.budget}}
+            {{movie.genres}}
+            <!-- <a href="/movies/{{movie.id}}/update">Update</a> -->
+        </div>
+        {% endfor %}
+</body>
+</html>
+
