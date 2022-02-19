@@ -1,16 +1,17 @@
-
-{% extends 'base.html' %}
-{% block content %} 
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
         {% for movie in movies %}
         <div>
             {{movie.id}}
             {{movie.title}}
             {{movie.budget}}
             {{movie.genres}}
-            <a href="/movies/{{movie.id}}/update">Update</a>
-            <a href="/movies/{{movie.id}}/delete">Delete</a>
+            <!-- <a href="/movies/{{movie.id}}/update">Update</a> -->
         </div>
         {% endfor %}
-        
-{% endblock %}
+</body>
+</html>

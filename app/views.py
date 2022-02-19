@@ -48,3 +48,9 @@ def update_movie(request, id):
     elif request.method == "GET":
         movie_form = MovieForm(instance=movie)
     return render(request, 'update_movie.html', {'form': movie_form})
+
+def delete_movie(request, id):
+    movie = Movie.objects.get(pk=id)
+    movie.delete()
+    return redirect('/movies')
+

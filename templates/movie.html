@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Document</title>
-</head>
-<body>
+
+{% extends 'base.html' %}
+{% block content %} 
+
     {{movie.id}}
     {{movie.title}}
     {{movie.budget}}
     {{movie.genres}}
-</body>
-</html>
+
+{% endblock %}
