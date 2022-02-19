@@ -63,10 +63,8 @@ def delete_movie(request, id):
 def signin(request):
     form = AuthenticationForm()
     if request.method == "POST":
-        print(request.POST)
         form = AuthenticationForm(data=request.POST)
-        print(form.is_valid())
-        print(form.errors)
+        
         if form.is_valid():
             user = authenticate(
                 username=form.cleaned_data['username'], password=form.cleaned_data['password'])
