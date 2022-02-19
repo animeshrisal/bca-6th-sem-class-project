@@ -64,7 +64,7 @@ def signin(request):
     form = AuthenticationForm()
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
-        
+
         if form.is_valid():
             user = authenticate(
                 username=form.cleaned_data['username'], password=form.cleaned_data['password'])
@@ -80,8 +80,9 @@ def signup(request):
 
         if form.is_valid():
             form.save()
+            print(form.cleaned_data)
             user = authenticate(
-                username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+                username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
             login(request, user)
             return redirect('/movies/')
 
