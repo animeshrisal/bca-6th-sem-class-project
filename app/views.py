@@ -1,6 +1,10 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+from django.contrib.auth import authenticate, login
+
 from .forms import MovieForm
 from .models import Movie
 
@@ -45,8 +49,10 @@ def update_movie(request, id):
         if movie_form.is_valid():
             movie_form.save()
             return redirect('/movies/{}'.format(id))
+
     elif request.method == "GET":
         movie_form = MovieForm(instance=movie)
+
     return render(request, 'update_movie.html', {'form': movie_form})
 
 def delete_movie(request, id):
@@ -54,3 +60,31 @@ def delete_movie(request, id):
     movie.delete()
     return redirect('/movies')
 
+def signin(request):
+    form = AuthenticationForm()
+    if request.method == "POST":
+        print(request.POST)
+        form = AuthenticationForm(data=request.POST)
+        print(form.is_valid())
+        print(form.errors)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, user)
+            return redirect('/movies/')
+
+    return render(request, 'signin.html', {'form': form})
+
+def signup(request):
+    form = UserCreationForm()
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            user = authenticate(
+                username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, user)
+            return redirect('/movies/')
+
+    return render(request, 'signup.html', {'form': form})
