@@ -7,4 +7,14 @@
     {{movie.budget}}
     {{movie.genres}}
 
+    {% if not context.is_favorite %}
+        <div>
+            <a href="/add_to_favorite/{{movie.id}}">Add to favorite</a>
+        </div>
+        {% else %}
+        <div>
+            <a href="/remove_from_favorites/{{movie.id}}">Remove from favorites</a>
+        </div>
+    {% endif %}
+
 {% endblock %}

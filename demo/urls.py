@@ -29,5 +29,8 @@ urlpatterns = [
     path('movies/<int:id>/delete', views.delete_movie),
     path('signup/', views.signup, name="User Sign Up"),
     path('signin/', views.signin, name="User Sign In"),
+    path('add_to_favorite/<int:id>', views.add_to_favorite, name="Add to favorite"),
+    path('remove_from_favorites/<int:id>',
+         views.remove_from_favorites, name="Remove from favorite"),
     path('admin/', admin.site.urls),
 ]
