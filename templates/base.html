@@ -7,6 +7,10 @@
         <ul>
             <li><a href="/index">Home</a></li>
             <li><a href="/movies">Movies List</a></li>
+
+            {% if request.user.is_authenticated %}
+                Logged in as {{ request.user.username }}
+            {% endif %}
         </ul>
     </nav>
     <div class="container">

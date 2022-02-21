@@ -5,8 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import MovieForm
-from .models import Movie
+from .forms import MovieForm, ReviewForm
+from .models import Movie, Review
 
 def home(request):
     return HttpResponse("Home Page")    
@@ -19,8 +19,18 @@ def template_test(request):
 
 def get_movie_info(request, id):
     try:
+        review_form = ReviewForm()
+        if request.method == 'POST':
+            review_form = ReviewForm(request.POST)
+            if review_form.is_valid():
+                review = review_form.save(commit=False)
+                review.movie_id = id
+                review.user_id = request.user.id
+                review.save()
+        
         movie = Movie.objects.get(id=id)
-
+        reviews = Review.objects.filter(movie=movie).order_by('-created_at')[0:4]
+    
         context = {
             'is_favorite': False
         }
@@ -28,7 +38,13 @@ def get_movie_info(request, id):
         if movie.favorite.filter(pk=request.user.pk).exists():
             context['is_favorite'] = True
 
-        return render(request, 'movie.html', {'movie': movie, 'context': context,})
+        return render(request, 'movie.html', 
+        {   
+            'reviews': reviews,
+            'review_form': review_form,
+            'movie': movie, 
+            'context': context,
+        })
 
     except Movie.DoesNotExist:
         return render(request, '404.html')
@@ -90,7 +106,6 @@ def signup(request):
 
         if form.is_valid():
             form.save()
-            print(form.cleaned_data)
             user = authenticate(
                 username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
             login(request, user)
@@ -119,3 +134,5 @@ def remove_from_favorites(request, id):
 def get_user_favorites(request):
     movies = request.user.favorite.all()
     return render(request, 'user_favorite.html', {'movies': movies})
+
+
