@@ -3,8 +3,8 @@
 {% block content %} 
 <div>
     {% for movie in movies %}
-            {{movie.id}} {{movie.title}} <a href="/movies/{{movie.id}}">Go to details</a>
-        </div>
+            {{movie.id}} {{movie.title}} 
+            <a href="/movies/{{movie.id}}">Go to details</a>
     {% endfor %}
 </div>
 {% endblock %}
