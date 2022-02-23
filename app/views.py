@@ -1,3 +1,4 @@
+import math
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
@@ -29,7 +30,9 @@ def get_movie_info(request, id):
                 review.save()
         
         movie = Movie.objects.get(id=id)
-        reviews = Review.objects.filter(movie=movie).order_by('-created_at')[0:4]
+        reviews = Review.objects.filter(
+            movie=movie
+        ).order_by('-created_at')[0:4]
     
         context = {
             'is_favorite': False
@@ -49,9 +52,27 @@ def get_movie_info(request, id):
     except Movie.DoesNotExist:
         return render(request, '404.html')
 
-def get_movies(request):
-    movies = Movie.objects.all()
-    return render(request, 'movies.html', {'movies': movies})
+def get_movies(request, page_number):
+    page_size = 1
+
+    if page_number < 1:
+        page_number = 1
+
+    movie_count = Movie.objects.count()
+
+    last_page = math.ceil(movie_count / page_size)
+    
+    pagination = {
+        'previous_page': page_number - 1,
+        'current_page': page_number,
+        'next_page': page_number + 1,
+        'last_page': last_page
+    }
+
+    movies = Movie.objects.all()[(page_number-1)
+                                 * page_size:page_number*page_size]
+    return render(request, 'movies.html', {'movies': movies, 'pagination': pagination})
+
 
 def post_movie(request):
     form = MovieForm()
@@ -122,7 +143,6 @@ def add_to_favorite(request, id):
     movie.favorite.add(request.user)
 
     return redirect('/movies/{0}'.format(id))
-
 
 def remove_from_favorites(request, id):
     movie = Movie.objects.get(id=id)
