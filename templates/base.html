@@ -6,10 +6,16 @@
     <nav>
         <ul>
             <li><a href="/index">Home</a></li>
-            <li><a href="/movies">Movies List</a></li>
+            <li><a href="/movies/page/1">Movies List</a></li>
 
             {% if request.user.is_authenticated %}
-                Logged in as {{ request.user.username }}
+            <li><a href="/signout">Sign Out</a></li>
+            {% else %}
+            <li><a href="/signin">Sign In</a></li>
+            {% endif %}
+
+            {% if request.user.is_superuser %}
+            <li><a href="/post_movie">Add movie</a></li>
             {% endif %}
         </ul>
     </nav>

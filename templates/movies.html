@@ -9,8 +9,10 @@
             {{movie.budget}}
             {{movie.genres}}
             <a href="/movies/{{movie.id}}">Go to details</a>
-            <a href="/movies/{{movie.id}}/update">Update</a>
-            <a href="/movies/{{movie.id}}/delete">Delete</a>
+            {% if request.user.is_superuser%}
+                <a href="/movies/{{movie.id}}/update">Update</a>
+                <a href="/movies/{{movie.id}}/delete">Delete</a>
+            {% endif %}
         </div>
         {% endfor %}
 

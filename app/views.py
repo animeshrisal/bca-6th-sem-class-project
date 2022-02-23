@@ -83,7 +83,7 @@ def post_movie(request):
         if movie_form.is_valid():
             movie_form.save()
 
-            return redirect('/movies/')
+            return redirect('/movies/page/1')
 
     return render(request, 'post_movie.html', {'form': form})
 
@@ -104,7 +104,7 @@ def update_movie(request, id):
 def delete_movie(request, id):
     movie = Movie.objects.get(pk=id)
     movie.delete()
-    return redirect('/movies')
+    return redirect('/movies/page/1')
 
 def signin(request):
     form = AuthenticationForm()
@@ -116,7 +116,7 @@ def signin(request):
                 username=form.cleaned_data['username'], 
                 password=form.cleaned_data['password'])
             login(request, user)
-            return redirect('/movies/')
+            return redirect('/movies/page/1')
 
     return render(request, 'signin.html', {'form': form})
 
@@ -130,13 +130,13 @@ def signup(request):
             user = authenticate(
                 username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
             login(request, user)
-            return redirect('/movies/')
+            return redirect('/movies/page/1')
 
     return render(request, 'signup.html', {'form': form})
 
 def signout(request):
     logout(request)
-    return redirect('/movie/')
+    return redirect('/movies/page/1')
 
 def add_to_favorite(request, id):
     movie = Movie.objects.get(id=id)
