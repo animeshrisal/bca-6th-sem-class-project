@@ -10,13 +10,10 @@ from .forms import MovieForm, ReviewForm
 from .models import Movie, Review
 
 def home(request):
-    return HttpResponse("Home Page")    
+    return render(request, 'index.html')  
 
 def number(request, id):
     return HttpResponse("Number: " + str(id))  
-
-def template_test(request):
-    return render(request, 'index.html')
 
 def get_movie_info(request, id):
     try:
@@ -71,7 +68,8 @@ def get_movies(request, page_number):
 
     movies = Movie.objects.all()[(page_number-1)
                                  * page_size:page_number*page_size]
-    return render(request, 'movies.html', {'movies': movies, 'pagination': pagination})
+    return render(request, 'movies.html',
+         {'movies': movies, 'pagination': pagination})
 
 
 def post_movie(request):

@@ -2,22 +2,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/index">Home</a></li>
-            <li><a href="/movies/page/1">Movies List</a></li>
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class = "navbar-nav mr-auto">
+            <li class = "nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class = "nav-item"><a class="nav-link" href="/movies/page/1">Movies</a></li>
+        </ul>
+        <ul class = "navbar-nav">
+            <!-- <a href="/post_movie">Add Movie</a> -->
             {% if request.user.is_authenticated %}
-            <li><a href="/signout">Sign Out</a></li>
+                <li class = "nav-item"><a class="nav-link" href="/user_favorites">Favorites</a></li>
+                <li class = "nav-item"><a class="nav-link" href="/signout">Sign Out</a></li>
             {% else %}
-            <li><a href="/signin">Sign In</a></li>
-            {% endif %}
-
-            {% if request.user.is_superuser %}
-            <li><a href="/post_movie">Add movie</a></li>
+                <li class = "nav-item"><a class="nav-link" href="/signin">Login</a></li>
+                <li class = "nav-item"><a class="nav-link" href="/signup">Register</a></li>
             {% endif %}
         </ul>
     </nav>

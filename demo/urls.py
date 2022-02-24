@@ -21,7 +21,6 @@ from app import views
 urlpatterns = [
     path('', views.home),
     path('number/<int:id>', views.number),
-    path('index/', views.template_test),
     path('movies/page/<int:page_number>/', views.get_movies),
     path('movies/<int:id>', views.get_movie_info),
     path('post_movie/', views.post_movie),

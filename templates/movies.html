@@ -1,28 +1,40 @@
 
 {% extends 'base.html' %}
 {% block content %} 
-
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Movie Title</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for movie in movies %}
-        <div>
-            {{movie.id}}
-            {{movie.title}}
-            {{movie.budget}}
-            {{movie.genres}}
-            <a href="/movies/{{movie.id}}">Go to details</a>
-            {% if request.user.is_superuser%}
+        <tr>
+            <td>{{movie.id}}</td>
+            <td class="col-6">{{movie.title}}</td>
+            <td class="col-4">
+                <a href="/movies/{{movie.id}}">Go to details</a>
+                {% if request.user.is_superuser %}
                 <a href="/movies/{{movie.id}}/update">Update</a>
                 <a href="/movies/{{movie.id}}/delete">Delete</a>
-            {% endif %}
-        </div>
+                {% endif %}
+            </td>
+        </tr>
         {% endfor %}
 
         <div>
             {% if pagination.current_page > 1 %}
-                <a href = "/movies/page/{{pagination.previous_page}}">Previous Page</a>
+                <a href = "/movies/page/{{pagination.previous_page}}">
+                    Previous Page
+                </a>
             {% endif %}
             
             {% if pagination.current_page != pagination.last_page %}
-                <a href = "/movies/page/{{pagination.next_page}}">Next Page</a>
+                <a href = "/movies/page/{{pagination.next_page}}">
+                    Next Page
+                </a>
             {% endif %}
         </div>
 {% endblock %}

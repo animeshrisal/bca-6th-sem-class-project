@@ -1,12 +1,12 @@
 
 {% extends 'base.html' %}
 {% block content %} 
-
-    {{movie.id}}
-    {{movie.title}}
-    {{movie.budget}}
-    {{movie.genres}}
-
+    <ul>
+        {{movie.id}}
+        {{movie.title}}
+        {{movie.budget}}
+        {{movie.genres}}
+    <ul>
     {% if request.user.is_authenticated %}
         {% if not context.is_favorite %}
             <div>
