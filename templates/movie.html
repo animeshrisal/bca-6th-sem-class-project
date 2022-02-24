@@ -2,10 +2,9 @@
 {% extends 'base.html' %}
 {% block content %} 
     <ul>
-        {{movie.id}}
-        {{movie.title}}
-        {{movie.budget}}
-        {{movie.genres}}
+        <li>{{movie.title}}</li>
+        <li>{{movie.budget}}</li>
+        <li>{{movie.genres}}</li>
     <ul>
     {% if request.user.is_authenticated %}
         {% if not context.is_favorite %}
@@ -21,6 +20,7 @@
                 </a>
             </div>
         {% endif %}
+
         <form action="/movies/{{movie.id}}" method="POST">
             {% csrf_token %}
             {{ review_form.as_p }}
@@ -30,8 +30,8 @@
     {% endif %}
 
     {% for review in reviews %}
-    <div>
-        <div>{{review.user.username}}</div>
+    <div class="container">
+        <div class="comment mt-4 text-justify float-left">{{review.user.username}}</div>
         <div>{{review.review}}</div>
         <div>{{review.created_at}}</div>
     </div>
