@@ -12,3 +12,6 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['review']
+
+class UploadForm(forms.Form):
+    file = forms.FileField()

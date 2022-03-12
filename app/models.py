@@ -6,6 +6,12 @@ class Movie(models.Model):
     title = models.CharField(max_length=100)
     budget = models.BigIntegerField(blank=True, null=True)
     genres = models.TextField(blank=True, null=True)
+    keywords = models.TextField(blank=True, null=True)
+    overview = models.TextField(blank=True, null=True)
+    tagline = models.TextField(blank=True, null=True)
+    cast = models.TextField(blank=True, null=True)
+    director = models.CharField(max_length=100, blank=True, null=True)
+
     favorite = models.ManyToManyField(User, related_name='favorite')
 
     def __str__(self):

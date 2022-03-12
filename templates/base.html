@@ -14,6 +14,7 @@
         <ul class = "navbar-nav">
             <!-- <a href="/post_movie">Add Movie</a> -->
             {% if request.user.is_authenticated %}
+                <li class = "nav-item"><a class="nav-link" href="/upload_dataset">Upload Dataset</a></li>
                 <li class = "nav-item"><a class="nav-link" href="/user_favorites">Favorites</a></li>
                 <li class = "nav-item"><a class="nav-link" href="/signout">Sign Out</a></li>
             {% else %}

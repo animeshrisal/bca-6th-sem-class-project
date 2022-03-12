@@ -29,7 +29,7 @@ urlpatterns = [
     path('signup/', views.signup, name="User Sign Up"),
     path('signin/', views.signin, name="User Sign In"),
     path('signout/', views.signout, name="User Sign Out"),
-
+    path('upload_dataset/', views.upload_dataset, name="Upload dataset"),
     path('add_to_favorite/<int:id>', 
             views.add_to_favorite, 
             name="Add to favorite"),
