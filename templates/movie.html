@@ -28,7 +28,13 @@
         </form>
        
     {% endif %}
-
+    <div>
+        You might also like:
+        {% for movie in recommended_movies %}
+            <a href = "/movies/{{movie.id}}">{{ movie.title }}</a>
+        {% endfor %}
+        
+    </div>
     {% for review in reviews %}
     <div class="container">
         <div class="comment mt-4 text-justify float-left">{{review.user.username}}</div>

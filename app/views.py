@@ -6,8 +6,11 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from django.contrib.auth import authenticate, login, logout
 
+from .ml import get_recommendation_for_movie
+
 from .forms import MovieForm, ReviewForm, UploadForm
 from .models import Movie, Review
+# from .ml import get_recommendation_for_movie
 
 from django.db import transaction
 import pandas as pd
@@ -38,6 +41,10 @@ def get_movie_info(request, id):
             'is_favorite': False
         }
 
+        movie_ids = get_recommendation_for_movie(id)
+
+        recommended_movies = Movie.objects.filter(id__in=movie_ids)
+
         if movie.favorite.filter(pk=request.user.pk).exists():
             context['is_favorite'] = True
 
@@ -47,6 +54,7 @@ def get_movie_info(request, id):
             'review_form': review_form,
             'movie': movie, 
             'context': context,
+            'recommended_movies': recommended_movies
         })
 
     except Movie.DoesNotExist:
@@ -187,7 +195,7 @@ def upload_dataset(request):
                         new_movies_list.append(movie)
                 
                 Movie.objects.bulk_create(new_movies_list)
-                return redirect('/movies/{0}'.format(id))
+                return redirect('/movies/page/1')
 
         except Exception as e:
             print(e)
