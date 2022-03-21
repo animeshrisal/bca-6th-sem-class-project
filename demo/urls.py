@@ -40,5 +40,8 @@ urlpatterns = [
     path('user_favorites/', 
             views.get_user_favorites, 
             name="Get User Favorites"),
+    path('api/movies', views.RetrieveMovieList.as_view(), name="get_movies_api"),
+    path('api/recommended_movie/<int:id>', views.GetMovieRecommendation.as_view(), name="get_movies_recommendation_api"),
+    path('api/add_movie', views.CreateMovie.as_view(), name='add_movie'),
     path('admin/', admin.site.urls),
 ]

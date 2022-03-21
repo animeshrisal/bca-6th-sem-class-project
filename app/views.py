@@ -6,6 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from django.contrib.auth import authenticate, login, logout
 
+from .serializers import MovieSerializer
+
 from .ml import get_recommendation_for_movie
 
 from .forms import MovieForm, ReviewForm, UploadForm
@@ -14,6 +16,12 @@ from .models import Movie, Review
 
 from django.db import transaction
 import pandas as pd
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+from .serializers import MovieSerializer
 
 def home(request):
     return render(request, 'index.html')  
@@ -203,3 +211,27 @@ def upload_dataset(request):
 
     return render(request, 'upload_dataset.html', {'form': file_form, 'error_messages': error_messages})
 
+class RetrieveMovieList(APIView):
+
+    def get(self, request):
+        movies = Movie.objects.all()[0:10]
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CreateMovie(APIView):
+    def post(self, request):
+        serializer = MovieSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetMovieRecommendation(APIView):
+
+    def get(self, request, id):
+        movie_ids = get_recommendation_for_movie(id)
+
+        recommended_movies = Movie.objects.filter(id__in=movie_ids)
+        serializer = MovieSerializer(recommended_movies, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
